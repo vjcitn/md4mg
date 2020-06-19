@@ -1,0 +1,26 @@
+---
+title: "md4mg: metadata for metagenomics, demo"
+author: Vince Carey^[stvjc@channing.harvard.edu]
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{md4mg: metadata for (curated) metagenomics, demo}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+```{r ck1}
+library(tibble)
+metadata=as_tibble(jsonlite::fromJSON(txt=url('https://api.omicidx.cancerdatasci.org/sra/studies/SRP114847/runs?size=500'),flatten=TRUE)$hits)
+
+#The sample variables can be grabbed like so:
+metadata %>% dplyr::select(accession, sample.attributes) %>% tidyr::unnest(sample.attributes) %>% tidyr::pivot_wider(names_from='tag', values_from='value') 
+```
