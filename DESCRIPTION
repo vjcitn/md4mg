@@ -1,6 +1,6 @@
 Package: md4mg
 Title: metadata for (curated) metagenomics
-Version: 0.0.0
+Version: 0.0.1
 Authors@R: 
     person(given = "Vincent",
            family = "Carey",
