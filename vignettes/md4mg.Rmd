@@ -1,11 +1,17 @@
 ---
 title: "md4mg: metadata for metagenomics"
-author: Vince Carey^[stvjc@channing.harvard.edu]
-output: rmarkdown::html_vignette
+author: 
+  - Vince Carey^[stvjc@channing.harvard.edu]
+  - Sean Davis^[seandavi@gmail.com]
 vignette: >
   %\VignetteIndexEntry{md4mg: metadata for (curated) metagenomics}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+output: 
+  BiocStyle::html_document:
+    number_sections: yes
+    theme: united
+    toc: yes
 ---
 
 ```{r, include = FALSE}
@@ -13,14 +19,81 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(BiocStyle)
 ```
 
 # Introduction
 
-```{r ck1}
-library(tibble)
-metadata=as_tibble(jsonlite::fromJSON(txt=url('https://api.omicidx.cancerdatasci.org/sra/studies/SRP114847/runs?size=500'),flatten=TRUE)$hits)
+This vignette reviews basic aspects of interacting with omicidx to
+obtain metadata about metagenomics studies available in NCBI SRA.
 
-#The sample variables can be grabbed like so:
-metadata %>% dplyr::select(accession, sample.attributes) %>% tidyr::unnest(sample.attributes) %>% tidyr::pivot_wider(names_from='tag', values_from='value') 
+## A quick view of a query about a study
+
+To get things rolling, let's assume we know the identifier for
+an SRA _study_ of interest: SRP114847.  How we discover identifiers
+for studies or families of studies will be discussed later.
+
+We can obtain a rectangular table of information about SRP114847
+by querying a specific _endpoint_ of the omicidx API.  We'll
+use the "runs for study" endpoint and then discuss why and how afterwards.
+```{r ck1, cache=TRUE}
+library(tibble)
+metadata=as_tibble(jsonlite::fromJSON(txt=
+   url('https://api.omicidx.cancerdatasci.org/sra/studies/SRP114847/runs?size=500'),
+   flatten=TRUE)$hits)
+dim(metadata)
 ```
+So there are 219 rows returned.  We
+can visit [the study level page at SRA](https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP114847) to find:
+
+<img src="srapic1.png"/>
+
+The mention of 219 runs suggests that the API did its job correctly.
+
+## The fields returned
+
+On the basis of this query, the `metadata` table could have
+no more than 500 rows.  What are the fields returned by our query?
+```{r lkf}
+colnames(metadata)
+```
+There is some
+structure in the field names.  There are four families of fields,
+base-level, study-level, experiment-level, and sample-level.
+The study/experiment/sample hierarchy reflects
+the fundamental _data model_ of NCBI SRA.  
+
+It is somewhat curious that the field names do not include the token `run`.
+It seems reasonable to say that 'run' is a synonym for 'experiment'.
+We see that each row returned has a unique experiment accession
+number:
+```{r chkl}
+length(unique(metadata$experiment.accession))
+```
+
+## The sample attributes
+
+A challenging aspect of SRA metadata is the diversity of sample attributes
+recorded, which varies from study to study.  The `metadata` `sample.attributes`
+field is nested within the metadata table, and consists of a list of
+tag-value pairs.  As examples:
+```{r lktv}
+metadata$sample.attributes[1:2]
+```
+This is somewhat cumbersome but it allows for diversity in metadata
+capture from sample to sample.
+
+To transform the `sample.attributes` to a table with one
+row per run, tidyr pivoting is very efficient:
+```{r tickle}
+sampatts = metadata %>% dplyr::select(accession, sample.attributes) %>% 
+    tidyr::unnest(sample.attributes) %>% 
+    tidyr::pivot_wider(names_from='tag', values_from='value') 
+DT::datatable(sampatts)
+```
+With this interactive table we can quickly see that there is diversity
+in geographic location (sort on `lat_lon`), and diet (sort on `host_diet`),
+but not on `env_material` (sort on it).
+
+So, with very little code, we've learned a lot about SRP114847.
+Now let's learn more about the API.
