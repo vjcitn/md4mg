@@ -97,3 +97,25 @@ but not on `env_material` (sort on it).
 
 So, with very little code, we've learned a lot about SRP114847.
 Now let's learn more about the API.
+
+# Reflectance in OmicIDX
+
+The OmicIDX system is developed using OpenAPI 3.0.  It is possible
+to learn about the features of OmicIDX by parsing a JSON
+document.
+```{r lkjso}
+ref  = fromJSON("https://api.omicidx.cancerdatasci.org/openapi.json")
+names(ref)
+```
+The `paths` element is really useful for programming with the API.
+```{r lklk}
+names(ref$paths)
+```
+It has its own substructure, which you can explore using
+an expandable tree -- try `listviewer::jsonedit(ref)`.
+For now we'll focus on the endpoint we used.
+```{r dolistv}
+ourendpt = "/sra/studies/{accession}/experiments"
+DT::datatable(cbind(qualname=ref$paths[[ourendpt]]$get$parameters$name, 
+  ref$paths[[ourendpt]]$get$parameters$schema))
+```
