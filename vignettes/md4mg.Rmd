@@ -104,7 +104,7 @@ The OmicIDX system is developed using OpenAPI 3.0.  It is possible
 to learn about the features of OmicIDX by parsing a JSON
 document.
 ```{r lkjso}
-ref  = fromJSON("https://api.omicidx.cancerdatasci.org/openapi.json")
+ref  = jsonlite::fromJSON("https://api.omicidx.cancerdatasci.org/openapi.json")
 names(ref)
 ```
 The `paths` element is really useful for programming with the API.
