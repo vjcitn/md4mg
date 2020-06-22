@@ -100,6 +100,8 @@ Now let's learn more about the API.
 
 # Reflectance in OmicIDX
 
+## The basic idea -- listing the available endpoints
+
 The OmicIDX system is developed using OpenAPI 3.0.  It is possible
 to learn about the features of OmicIDX by parsing a JSON
 document.
@@ -116,6 +118,30 @@ an expandable tree -- try `listviewer::jsonedit(ref)`.
 For now we'll focus on the endpoint we used.
 ```{r dolistv}
 ourendpt = "/sra/studies/{accession}/experiments"
+as.data.frame(cbind(qualname=ref$paths[[ourendpt]]$get$parameters$name, 
+  ref$paths[[ourendpt]]$get$parameters$schema))  # wanted datatable but threw warning
+```
+
+## Trying out a different endpoint
+
+We found that `refs$paths` has lots of information that our software
+can use to figure out what it can do with the OmicIDX API.  Here we'll add
+a lucene query for the sra/studies endpoint.  We'll modify the default
+number of hits to retrieve, which is 10, specifying that we want up to 15 records.
+We'll use `q=microbiome%20AND%20cancer` as a Lucene query.
+```{r domcq,cache=TRUE}
+mcq = jsonlite::fromJSON(
+ "https://api.omicidx.cancerdatasci.org/sra/studies?q=microbiome%20AND%20cancer&size=15",
+ flatten=TRUE)
+as_tibble(mcq$hits)
+```
+
+## What we can do with the `sra/studies` endpoint
+
+Let's use the `refs` entity computed above to see what
+we can request using the `sra/studies` endpoint.
+```{r modit}
+ourendpt = "/sra/studies"
 as.data.frame(cbind(qualname=ref$paths[[ourendpt]]$get$parameters$name, 
   ref$paths[[ourendpt]]$get$parameters$schema))  # wanted datatable but threw warning
 ```
