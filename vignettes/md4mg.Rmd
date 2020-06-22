@@ -116,6 +116,6 @@ an expandable tree -- try `listviewer::jsonedit(ref)`.
 For now we'll focus on the endpoint we used.
 ```{r dolistv}
 ourendpt = "/sra/studies/{accession}/experiments"
-DT::datatable(cbind(qualname=ref$paths[[ourendpt]]$get$parameters$name, 
-  ref$paths[[ourendpt]]$get$parameters$schema))
+as.data.frame(cbind(qualname=ref$paths[[ourendpt]]$get$parameters$name, 
+  ref$paths[[ourendpt]]$get$parameters$schema))  # wanted datatable but threw warning
 ```
