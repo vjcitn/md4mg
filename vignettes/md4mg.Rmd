@@ -189,7 +189,7 @@ samp_atts_by_study = function(srp="SRP082656", size=500, ...) {
  metadata=try(as_tibble(jsonlite::fromJSON(txt=qstr, flatten=TRUE)$hits))
  if (inherits(metadata, "try-error")) stop("check srp")
  sampatts = metadata %>% dplyr::select(accession, sample.attributes) %>% 
-    tidyr::unnest(sample.attributes) %>% filter(tag!="BioSampleModel") %>%
+    tidyr::unnest(sample.attributes) %>% dplyr::filter(tag!="BioSampleModel") %>%
     tidyr::pivot_wider(names_from='tag', values_from='value')
  sampatts
 }
