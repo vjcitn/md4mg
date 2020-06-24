@@ -184,14 +184,23 @@ metadata on the `AsnicarF_2017` study.  We determined the
 SRP number from the call above.
 
 ```{r dosa,cache=TRUE}
-samp_atts_by_study = function(srp="SRP082656", size=500, ...) {
- qstr = sprintf('https://api.omicidx.cancerdatasci.org/sra/studies/%s/runs?size=%s', srp, size)
- metadata=try(as_tibble(jsonlite::fromJSON(txt=qstr, flatten=TRUE)$hits))
- if (inherits(metadata, "try-error")) stop("check srp")
- sampatts = metadata %>% dplyr::select(accession, sample.attributes) %>% 
-    tidyr::unnest(sample.attributes) %>% dplyr::filter(tag!="BioSampleModel") %>%
-    tidyr::pivot_wider(names_from='tag', values_from='value')
- sampatts
+samp_atts_by_study = function (srp = "SRP082656", size = 500, cursor=NULL, ...) 
+{
+    base_url = "https://api.omicidx.cancerdatasci.org/sra/studies/%s/runs?size=%s"
+    if (!is.null(cursor)) base_url = paste0(base_url, "&cursor=", cursor)
+    qstr = sprintf(base_url, srp, size)
+    md = try(jsonlite::fromJSON(txt = qstr, flatten = TRUE))
+    if (inherits(md, "try-error")) 
+        stop("could not parse JSON")
+    metadata = as_tibble(md$hits)
+    if (inherits(metadata, "try-error")) 
+        stop("check srp")
+    sampatts = metadata %>% dplyr::select(accession, sample.attributes) %>% 
+        tidyr::unnest(sample.attributes) %>% dplyr::filter(tag != 
+        "BioSampleModel") %>% tidyr::pivot_wider(names_from = "tag", 
+        values_from = "value")
+    attr(sampatts, "cursor") = md$cursor
+    sampatts
 }
 sa_asnicar = samp_atts_by_study()
 dim(sa_asnicar)
