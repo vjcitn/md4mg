@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • md4mg</title>
+<title>obtain sample attributes for a study. — samp_atts_by_study • md4mg</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Articles" />
+<meta property="og:title" content="obtain sample attributes for a study. — samp_atts_by_study" />
+<meta property="og:description" content="obtain sample attributes for a study." />
 
 
 
@@ -68,7 +69,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-article-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -120,18 +121,83 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Articles</h1>
+    <h1>obtain sample attributes for a study.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/vjcitn/md4mg/blob/master/R/sampatts.R'><code>R/sampatts.R</code></a></small>
+    <div class="hidden name"><code>samp_atts_by_study.Rd</code></div>
     </div>
 
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <dl>
-        <dt><a href="md4mg.html">md4mg: metadata for metagenomics</a></dt>
-        <dd></dt>
-      </dl>
+    <div class="ref-description">
+    <p>obtain sample attributes for a study.</p>
     </div>
+
+    <pre class="usage"><span class='fu'>samp_atts_by_study</span>(<span class='kw'>srp</span> <span class='kw'>=</span> <span class='st'>"SRP082656"</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>500</span>, <span class='kw'>cursor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>srp</th>
+      <td><p>character(1) SRP tag for a study in NCBI SRA</p></td>
+    </tr>
+    <tr>
+      <th>size</th>
+      <td><p>numeric(1) maximum number of records to return</p></td>
+    </tr>
+    <tr>
+      <th>cursor</th>
+      <td><p>character(1) the value of the cursor returned in a previous call; see note.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>not currently used</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>If the number of records available in query response exceeds the value of <code>size</code>, the
+returned tibble will have an attribute 'cursor' which can be retrieved and used in
+subsequent calls to this function.</p>
+<p>If <code>size</code> is zero, a list is returned with information on the number of records available.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>t1</span> <span class='kw'>=</span> <span class='fu'>samp_atts_by_study</span>(<span class='kw'>size</span><span class='kw'>=</span><span class='fl'>10</span>)
+<span class='no'>t1</span></div><div class='output co'>#&gt; # A tibble: 10 x 11
+#&gt;    accession collection_date env_biome env_feature env_material geo_loc_name
+#&gt;    &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;       
+#&gt;  1 SRR40520… 2014            Human st… Human-asso… Human infan… Italy: Tren…
+#&gt;  2 SRR40520… 2014            Human st… Human-asso… Human infan… Italy: Tren…
+#&gt;  3 SRR40520… 2014            Human st… Human-asso… Human mothe… Italy: Tren…
+#&gt;  4 SRR40520… 2014            Human st… Human-asso… Human mothe… Italy: Tren…
+#&gt;  5 SRR40520… 2015            Human st… Human-asso… Human mothe… Italy: Tren…
+#&gt;  6 SRR40520… 2014            Human st… Human-asso… Human mothe… Italy: Tren…
+#&gt;  7 SRR40520… 2014            Human st… Human-asso… Human mothe… Italy: Tren…
+#&gt;  8 SRR40520… 2015            Human st… Human-asso… Human mothe… Italy: Tren…
+#&gt;  9 SRR40520… 2014            Human mi… Human-asso… Human mothe… Italy: Tren…
+#&gt; 10 SRR40520… 2014            Human mi… Human-asso… Human mothe… Italy: Tren…
+#&gt; # … with 5 more variables: host &lt;chr&gt;, lat_lon &lt;chr&gt;, timepoint &lt;chr&gt;,
+#&gt; #   gender &lt;chr&gt;, couple &lt;chr&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>t1</span>, <span class='st'>"cursor"</span>)</div><div class='output co'>#&gt; [1] "X2lkfHxhc2N8fHx8U1JSNDA1MjAzMA=="</div><div class='input'><span class='fu'>samp_atts_by_study</span>(<span class='kw'>size</span><span class='kw'>=</span><span class='fl'>0</span>)</div><div class='output co'>#&gt; $hits
+#&gt; list()
+#&gt; 
+#&gt; $cursor
+#&gt; NULL
+#&gt; 
+#&gt; $stats
+#&gt; $stats$total
+#&gt; [1] 28
+#&gt; 
+#&gt; $stats$took
+#&gt; [1] 0
+#&gt; 
+#&gt; 
+#&gt; $success
+#&gt; [1] TRUE
+#&gt; </div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
