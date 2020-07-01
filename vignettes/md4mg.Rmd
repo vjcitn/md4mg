@@ -64,8 +64,9 @@ The study/experiment/sample hierarchy reflects
 the fundamental _data model_ of NCBI SRA.  
 
 It is somewhat curious that the field names do not include the token `run`.
-It seems reasonable to say that 'run' is a synonym for 'experiment'.
-We see that each row returned has a unique experiment accession
+It seems reasonable to say that 'run' is a synonym for 'experiment', but the
+relationship is not always one-to-one.  In this case,
+we see that each row returned has a unique experiment accession
 number:
 ```{r chkl}
 length(unique(metadata$experiment.accession))
