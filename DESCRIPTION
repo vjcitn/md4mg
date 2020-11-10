@@ -1,6 +1,6 @@
 Package: md4mg
 Title: metadata for (curated) metagenomics
-Version: 0.0.9
+Version: 0.0.10
 Authors@R: 
     c(person(given = "Vincent",
            family = "Carey",
@@ -15,7 +15,7 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
-Depends: R (>= 3.6.0), tidyr, tibble, dplyr, jsonlite
+Depends: R (>= 3.6.0), tidyr, tibble, dplyr, jsonlite, httr
 Suggests: 
     knitr,
     rmarkdown,

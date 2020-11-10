@@ -27,6 +27,9 @@ library(BiocStyle)
 This vignette reviews basic aspects of interacting with omicidx to
 obtain metadata about metagenomics studies available in NCBI SRA.
 
+In Nov 2020 we added some material at the end about the API for surveying nextflow
+outputs.
+
 ## A quick view of a query about a study
 
 To get things rolling, let's assume we know the identifier for
@@ -199,3 +202,35 @@ DT::datatable(sa_asnicar)
 One could say that this is the uncurated sample metadata for this study.
 Of some concern is the fact that there are 28 records here but only
 25 records in the tsv file.
+
+# Code for the CMDG telemetry API
+
+This is very basic exploration of results of the updated
+workflow.
+```{r lkcotel}
+library(httr)
+base_url = function() "https://cmgd-telemetry-whnnxetv4q-uc.a.run.app"
+
+nf_metadata_names = function(url=base_url(), limit=5, offset=0) {
+  x = GET(sprintf(paste(url, "/nextflow/events?limit=%s&offset=%s", sep=""), limit, offset))
+  sapply(content(x)$hits, function(z) z$metadata$parameters$metadata_tsv)
+  }
+
+nf_metadata_wf_cmdline = function(url=base_url(), limit=5, offset=0) {
+  x = GET(sprintf(paste(url, "/nextflow/events?limit=%s&offset=%s", sep=""), limit, offset))
+  sapply(content(x)$hits, function(z) z$metadata$workflow$commandLine)
+  }
+
+nf_trscript = function(url=base_url(), limit=5, offset=0) {
+  x = GET(sprintf(paste(url, "/nextflow/events?limit=%s&offset=%s", sep=""), limit, offset))
+  sapply(content(x)$hits, function(z) z$trace$script)
+  }
+
+nf_accessions = function(url=base_url(), limit=5, offset=0) {
+  tmp = nf_trscript(url=url, limit=limit, offset=offset)
+  gsub(".*accessions: (.*\\]).*", "\\1", tmp)
+  }
+nf_metadata_names(limit=5)
+nf_accessions(limit=5)
+```
+
