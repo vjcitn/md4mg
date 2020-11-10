@@ -206,7 +206,9 @@ Of some concern is the fact that there are 28 records here but only
 # Code for the CMDG telemetry API
 
 This is very basic exploration of results of the updated
-workflow.
+workflow.  Note that the first 10 records are different
+from the remainder: the first 10 have metadata_tsv entries and
+no `trace$script` entries.
 ```{r lkcotel}
 library(httr)
 base_url = function() "https://cmgd-telemetry-whnnxetv4q-uc.a.run.app"
@@ -231,6 +233,6 @@ nf_accessions = function(url=base_url(), limit=5, offset=0) {
   gsub(".*accessions: (.*\\]).*", "\\1", tmp)
   }
 nf_metadata_names(limit=5)
-nf_accessions(limit=5)
+nf_accessions(limit=5, offset=100)
 ```
 
