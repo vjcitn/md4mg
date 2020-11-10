@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   md4mg: md4mg.html
-last_built: 2020-11-10T17:38Z
+last_built: 2020-11-10T19:14Z
 urls:
   reference: https://vjcitn.github.io/md4mg/reference
   article: https://vjcitn.github.io/md4mg/articles
