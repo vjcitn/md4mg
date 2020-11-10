@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">md4mg</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.11</span>
       </span>
     </div>
 
@@ -130,7 +130,7 @@
     <p>obtain sample attributes for a study.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>samp_atts_by_study</span>(<span class='kw'>srp</span> <span class='kw'>=</span> <span class='st'>"SRP082656"</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>500</span>, <span class='kw'>cursor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>samp_atts_by_study</span><span class='op'>(</span>srp <span class='op'>=</span> <span class='st'>"SRP082656"</span>, size <span class='op'>=</span> <span class='fl'>500</span>, cursor <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,22 +161,25 @@ subsequent calls to this function.</p>
 <p>If <code>size</code> is zero, a list is returned with information on the number of records available.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>t1</span> <span class='kw'>=</span> <span class='fu'>samp_atts_by_study</span>(<span class='kw'>size</span><span class='kw'>=</span><span class='fl'>10</span>)
-<span class='no'>t1</span></div><div class='output co'>#&gt; # A tibble: 10 x 11
+    <pre class="examples"><div class='input'><span class='va'>t1</span> <span class='op'>=</span> <span class='fu'>samp_atts_by_study</span><span class='op'>(</span>size<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span>
+<span class='va'>t1</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 11</span><span>
 #&gt;    accession collection_date env_biome env_feature env_material geo_loc_name
-#&gt;    &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;       
-#&gt;  1 SRR40520… 2014            Human st… Human-asso… Human infan… Italy: Tren…
-#&gt;  2 SRR40520… 2014            Human st… Human-asso… Human infan… Italy: Tren…
-#&gt;  3 SRR40520… 2014            Human st… Human-asso… Human mothe… Italy: Tren…
-#&gt;  4 SRR40520… 2014            Human st… Human-asso… Human mothe… Italy: Tren…
-#&gt;  5 SRR40520… 2015            Human st… Human-asso… Human mothe… Italy: Tren…
-#&gt;  6 SRR40520… 2014            Human st… Human-asso… Human mothe… Italy: Tren…
-#&gt;  7 SRR40520… 2014            Human st… Human-asso… Human mothe… Italy: Tren…
-#&gt;  8 SRR40520… 2015            Human st… Human-asso… Human mothe… Italy: Tren…
-#&gt;  9 SRR40520… 2014            Human mi… Human-asso… Human mothe… Italy: Tren…
-#&gt; 10 SRR40520… 2014            Human mi… Human-asso… Human mothe… Italy: Tren…
-#&gt; # … with 5 more variables: host &lt;chr&gt;, lat_lon &lt;chr&gt;, timepoint &lt;chr&gt;,
-#&gt; #   gender &lt;chr&gt;, couple &lt;chr&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>t1</span>, <span class='st'>"cursor"</span>)</div><div class='output co'>#&gt; [1] "X2lkfHxhc2N8fHx8U1JSNDA1MjAzMA=="</div><div class='input'><span class='fu'>samp_atts_by_study</span>(<span class='kw'>size</span><span class='kw'>=</span><span class='fl'>0</span>)</div><div class='output co'>#&gt; $hits
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
+#&gt; </span><span style='color: #555555;'> 1</span><span> SRR40520… 2014            Human st… Human-asso… Human infan… Italy: Tren…
+#&gt; </span><span style='color: #555555;'> 2</span><span> SRR40520… 2014            Human st… Human-asso… Human infan… Italy: Tren…
+#&gt; </span><span style='color: #555555;'> 3</span><span> SRR40520… 2014            Human st… Human-asso… Human mothe… Italy: Tren…
+#&gt; </span><span style='color: #555555;'> 4</span><span> SRR40520… 2014            Human st… Human-asso… Human mothe… Italy: Tren…
+#&gt; </span><span style='color: #555555;'> 5</span><span> SRR40520… 2015            Human st… Human-asso… Human mothe… Italy: Tren…
+#&gt; </span><span style='color: #555555;'> 6</span><span> SRR40520… 2014            Human st… Human-asso… Human mothe… Italy: Tren…
+#&gt; </span><span style='color: #555555;'> 7</span><span> SRR40520… 2014            Human st… Human-asso… Human mothe… Italy: Tren…
+#&gt; </span><span style='color: #555555;'> 8</span><span> SRR40520… 2015            Human st… Human-asso… Human mothe… Italy: Tren…
+#&gt; </span><span style='color: #555555;'> 9</span><span> SRR40520… 2014            Human mi… Human-asso… Human mothe… Italy: Tren…
+#&gt; </span><span style='color: #555555;'>10</span><span> SRR40520… 2014            Human mi… Human-asso… Human mothe… Italy: Tren…
+#&gt; </span><span style='color: #555555;'># … with 5 more variables: host </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, lat_lon </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, timepoint </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   gender </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, couple </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>t1</span>, <span class='st'>"cursor"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "X2lkfHxhc2N8fHx8U1JSNDA1MjAzMA=="</div><div class='input'><span class='fu'>samp_atts_by_study</span><span class='op'>(</span>size<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $hits
 #&gt; list()
 #&gt; 
 #&gt; $cursor
@@ -192,7 +195,7 @@ subsequent calls to this function.</p>
 #&gt; 
 #&gt; $success
 #&gt; [1] TRUE
-#&gt; </div></pre>
+#&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -208,7 +211,7 @@ subsequent calls to this function.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
